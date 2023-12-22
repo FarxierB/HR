@@ -1,7 +1,9 @@
 import Service.CreateDateService;
 import configuration.JPAConfig;
+import entity.Functie;
 import entity.Werknemer;
 import jakarta.persistence.EntityManager;
+import repository.FunctieRepo;
 import repository.WerknemerRepo;
 
 import java.time.LocalDate;
@@ -14,6 +16,7 @@ public class Main {
 
         EntityManager entityManager = JPAConfig.getEntityManager();
         WerknemerRepo werknemerRepo = new WerknemerRepo(entityManager);
+        FunctieRepo functieRepo = new FunctieRepo(entityManager);
 
         try {
             int choice;
@@ -22,11 +25,14 @@ public class Main {
                 System.out.println("2. Update Werknemer");
                 System.out.println("3. Delete Werknemer");
                 System.out.println("4. View All Werknemers");
-                System.out.println("5. Exit");
+                System.out.println("5. View aantal werknemers in dienst");
+                System.out.println("6. View lijst van functies");
+                System.out.println("7. View aantal werknemers in dienst per functies");
+                System.out.println("8. Exit");
                 System.out.print("Enter your choice: ");
 
                 choice = scanner.nextInt();
-                scanner.nextLine(); // Consume the newline character
+                scanner.nextLine();
 
                 switch (choice) {
                     case 1:
@@ -42,13 +48,23 @@ public class Main {
                         viewAllWerknemers(werknemerRepo);
                         break;
                     case 5:
+                        getTotalWerknemersCount(werknemerRepo);
+                        break;
+                    case 6:
+                        viewAllFuncties(functieRepo);
+                        break;
+                    case 7:
+                        getWerknemersCountByFunctie(scanner, werknemerRepo);
+                        break;
+                    case 8:
                         System.out.println("Exiting...");
                         break;
+
                     default:
                         System.out.println("Invalid choice. Please enter a valid option.");
                 }
 
-            } while (choice != 5);
+            } while (choice != 8);
         } finally {
             // Close resources
             scanner.close();
@@ -85,14 +101,14 @@ public class Main {
             System.out.print("Enter new Voornamen: ");
             updatedWerknemer.setVoorNamen(scanner.nextLine());
 
-//            System.out.print("Enter new Achternaam: ");
-//            updatedWerknemer.setAchterNaam(scanner.nextLine());
-//
+            System.out.print("Enter new Achternaam: ");
+            updatedWerknemer.setAchterNaam(scanner.nextLine());
+
 //            System.out.print("Enter new geboortedatum: ");
 //            updatedWerknemer.setGeboorteDatum(LocalDate.parse(scanner.nextLine()));
 //
-//            System.out.print("Enter new Geboorteplaats: ");
-//            updatedWerknemer.setGeboortePlaats(scanner.nextLine());
+            System.out.print("Enter new Geboorteplaats: ");
+            updatedWerknemer.setGeboortePlaats(scanner.nextLine());
 
             werknemerRepo.updateWerknemer(updatedWerknemer);
             System.out.println("Werknemer updated successfully!");
@@ -127,7 +143,26 @@ public class Main {
     }
 
 
+    private static void getTotalWerknemersCount(WerknemerRepo werknemerRepo) {
+        long totalWerknemersCount = werknemerRepo.getTotalWerknemersCount();
+        System.out.println("Total number of Werknemers: " + totalWerknemersCount);
+    }
 
+    private static void getWerknemersCountByFunctie(Scanner scanner, WerknemerRepo werknemerRepo) {
+        System.out.print("Enter Functie Name: ");
+        String functieName = scanner.nextLine();
+        long werknemersCount = werknemerRepo.getWerknemersCountByFunctie(functieName);
+        System.out.println("Total number of Werknemers with Functie " + functieName + ": " + werknemersCount);
+    }
+
+
+    private static void viewAllFuncties(FunctieRepo functieRepo) {
+        System.out.println("All Werknemers:");
+        for (Functie functie : functieRepo.getFuncties()) {
+            System.out.println("Functie ID: " + functie.getFunctieId() +
+                    ", Functie: " + functie.getFunctieType());
+        }
+    }
 
          //CreateDateService.CreateData();
         // CreateDataService.getInfo();

@@ -2,7 +2,10 @@ package Service;
 
 import configuration.JPAConfig;
 import entity.Functie;
+import entity.Werknemer;
 import repository.FunctieRepo;
+
+import java.util.List;
 
 public class FunctieService {
 
@@ -19,4 +22,6 @@ public class FunctieService {
     public Functie updateFunctie(Functie functie) { return repository.updateFunctie(functie);}
 
     public Functie deleteFunctie(Functie functie) { return repository.deleteFunctie(functie);}
+
+    public List<Functie> getFuncties(){return repository.getFuncties();}
 }

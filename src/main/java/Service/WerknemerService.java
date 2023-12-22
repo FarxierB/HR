@@ -27,4 +27,7 @@ public class WerknemerService {
     public Werknemer updateWerknemer(Werknemer werknemer) { return repository.updateWerknemer(werknemer);}
 
     public Werknemer deleteWerknemer(Werknemer werknemer) { return repository.deleteWerknemer(werknemer);}
+    public long getTotalWerknemersCount() { return repository.getTotalWerknemersCount();}
+
+    public long getWerknemersCountByFunctie(String functieName) {return repository.getWerknemersCountByFunctie(functieName);}
 }

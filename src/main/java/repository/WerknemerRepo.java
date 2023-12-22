@@ -1,7 +1,9 @@
 package repository;
 
+import entity.Afdeling;
 import entity.Werknemer;
 import jakarta.persistence.EntityManager;
+import jakarta.persistence.Query;
 import jakarta.persistence.TypedQuery;
 
 import java.util.List;
@@ -30,6 +32,7 @@ public class WerknemerRepo {
         System.out.println("Werknemer ID: " + werknemer.getIdNummer() + "\nVoornamen: " + werknemer.getVoorNamen() +"\nAchternaam: " + werknemer.getAchterNaam() + "\nGeboorteDatum: " + werknemer.getGeboorteDatum() + "\nGeboortePlaats: " + werknemer.getGeboortePlaats());
         return typedQuery.getSingleResult();
     }
+
 
     public Werknemer getWerknemer(String werknemerId){
         String query = "Select w from Werknemer w where w.id = :werknemer_id";
@@ -119,4 +122,19 @@ public class WerknemerRepo {
             return null;
         }
     }
+
+    public long getTotalWerknemersCount() {
+        String query = "select count(w) from Werknemer w";
+        TypedQuery<Long> typedQuery = em.createQuery(query, Long.class);
+        return typedQuery.getSingleResult();
+    }
+
+    public long getWerknemersCountByFunctie(String functieName) {
+        String query = "select count(w) from Werknemer w join w.WerknemerFunctie f where f.FunctieType = :functieName";
+        Query typedQuery = em.createQuery(query);
+        typedQuery.setParameter("functieName", functieName);
+        return (long) typedQuery.getSingleResult();
+    }
+
+
 }

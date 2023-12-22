@@ -1,7 +1,11 @@
 package repository;
 
 import entity.Functie;
+import entity.Werknemer;
 import jakarta.persistence.EntityManager;
+import jakarta.persistence.TypedQuery;
+
+import java.util.List;
 
 public class FunctieRepo {
 
@@ -51,4 +55,12 @@ public class FunctieRepo {
         }
         return functie;
     }
+
+    public List<Functie> getFuncties (){
+        String query = "select f from Functie f";
+        TypedQuery<Functie> typedQuery = em.createQuery(query, Functie.class);
+        List<Functie> functieList = typedQuery.getResultList();
+        return functieList;
+    }
+
 }
