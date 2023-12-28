@@ -1,11 +1,13 @@
 package Service;
 
+import Observer.ObserverChange;
 import entity.Afdeling;
 import entity.Functie;
 import entity.Werknemer;
 import entity.WerknemerDetail;
 
 import java.time.LocalDate;
+import java.util.List;
 
 public class CreateDateService {
     static AfdelingService afdelingService = new AfdelingService();
@@ -14,11 +16,9 @@ public class CreateDateService {
 
     static WerknemerService werknemerService = new WerknemerService();
 
+    static ObserverChange observer = new ObserverChange();
+
     public static void CreateData(){
-
-
-
-
 
         Afdeling afdeling1 = new Afdeling();
         afdeling1.setAfdelingNaam("Frontdesk");
@@ -73,6 +73,9 @@ public class CreateDateService {
         werknemer1.setAchterNaam("Bechan");
         werknemer1.setGeboorteDatum(LocalDate.of(1999,5,24));
         werknemer1.setGeboortePlaats("Suriname");
+        werknemer1.setFuncties(assfin);
+        werknemer1.setFuncties(assmark);
+        werknemer1.addObserver(observer);
         Werknemer w1 = werknemerService.createWerknemer(werknemer1);
 
         Werknemer werknemer2 = new Werknemer();
@@ -81,6 +84,8 @@ public class CreateDateService {
         werknemer2.setAchterNaam("Momoa");
         werknemer2.setGeboorteDatum(LocalDate.of(1964,8,8));
         werknemer2.setGeboortePlaats("USA");
+        werknemer2.setFuncties(assfin);
+        werknemer2.addObserver(observer);
         Werknemer w2 = werknemerService.createWerknemer(werknemer2);
 
         Werknemer werknemer3 = new Werknemer();
@@ -89,6 +94,7 @@ public class CreateDateService {
         werknemer3.setAchterNaam("Singh");
         werknemer3.setGeboorteDatum(LocalDate.of(1987,9,14));
         werknemer3.setGeboortePlaats("India");
+        werknemer3.addObserver(observer);
         Werknemer w3 = werknemerService.createWerknemer(werknemer3);
 
 
@@ -98,16 +104,14 @@ public class CreateDateService {
         werknemer4.setAchterNaam("Parker");
         werknemer4.setGeboorteDatum(LocalDate.of(1991,10,4));
         werknemer4.setGeboortePlaats("Nederland");
+        werknemer4.addObserver(observer);
         Werknemer w4 = werknemerService.createWerknemer(werknemer4);
 
 
 
-        werknemer1.setWerknemerFunctie(assfin);
-        werknemer1.setWerknemerFunctie(assmark);
-        werknemer2.setWerknemerFunctie(assfin);
-        assfin.setWerknemers(werknemer1);
-        assfin.setWerknemers(werknemer2);
-        assmark.setWerknemers(werknemer1);
+        assfin.setWerknemers(w1);
+        assmark.setWerknemers(w1);
+        assfin.setWerknemers(w2);
 //-----------------------------------------------------------------------------------------
         WerknemerDetail adres1 = new WerknemerDetail();
         adres1.setAdres("Ramdasstraat#14");
@@ -137,27 +141,13 @@ public class CreateDateService {
         adres4.setWerknemerId(w4);
         werknemerDetailService.createWerknemerDetail(adres4);
 
+
+
+
+
+
 //---------------------------------------------------------------------------------
 
-        /*WerkUren werkUren1 = new WerkUren();
-        werkUren1.setMaand("Januari");
-        werkUren1.setAantalUren(21.5);
-        werkUren1.setUurloon(150);
-        werkUren1.setWerknemerId(w1);
-        werkUrenService.addWerkUren(werkUren1);
-
-        WerkUren werkUren2 = new WerkUren();
-        werkUren2.setMaand("Februari");
-        werkUren2.setAantalUren(55);
-        werkUren2.setUurloon(150);
-        werkUren2.setWerknemerId(w1);
-        werkUrenService.addWerkUren(werkUren2);
-
-        InlogWerknemer inlog1 = new InlogWerknemer();
-        inlog1.setUsername("dbechan");
-        inlog1.setPassword("Bechan1234");
-        //inlog1.setWerknemerId(w1);
-        inlogService.addInlogGegevens(inlog1);*/
 
     }
     public static void getInfo(){

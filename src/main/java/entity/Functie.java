@@ -3,23 +3,29 @@ package entity;
 import jakarta.persistence.*;
 
 import java.util.ArrayList;
+import java.util.HashSet;
 import java.util.List;
+import java.util.Set;
 
 @Entity
 @Table(name = "Functie")
 public class Functie {
     @Id
     @GeneratedValue
+    @Column
     private int FunctieId;
 
+    @Column
     private String FunctieType;
 
-    @ManyToMany (mappedBy = "WerknemerFunctie")
-    private List<Werknemer> werknemers = new ArrayList<>();
+
 
     @ManyToOne
     @JoinColumn(name = "Afdeling_Id")
     private Afdeling Afdeling;
+
+    @ManyToMany (mappedBy = "functies")
+    private Set<Werknemer> werknemers = new HashSet<>();
 
     public Functie()
     {
@@ -55,11 +61,13 @@ public class Functie {
         Afdeling = afdeling;
     }
 
-    public List<Werknemer> getWerknemers() {
+    public Set<Werknemer> getWerknemers() {
         return werknemers;
     }
 
-    public void setWerknemers(Werknemer werknemers) {
-        this.werknemers.add(werknemers);
+    public void setWerknemers(Werknemer werknemer) {
+        this.werknemers.add(werknemer);
     }
+
+
 }

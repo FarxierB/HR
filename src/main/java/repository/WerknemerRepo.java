@@ -48,6 +48,7 @@ public class WerknemerRepo {
             em.getTransaction().begin();
             em.persist(werknemer);
             em.getTransaction().commit();
+            werknemer.updateWerknemer();
         }
         catch (Exception e) {
             e.printStackTrace();
@@ -65,13 +66,55 @@ public class WerknemerRepo {
             em.find(Werknemer.class, werknemer.getIdNummer());
             if(werknemer != null)  em.remove(werknemer);
             em.getTransaction().commit();
+
+            werknemer.updateWerknemer();
         }catch (Exception e){
             e.printStackTrace();
             em.getTransaction().rollback();
         }
         return werknemer;
     }
-    /*public Werknemer deleteWerknemer(String idNummer) {
+
+    public Werknemer updateWerknemer(Werknemer updatedWerknemer) {
+        try {
+            em.getTransaction().begin();
+            Werknemer existingWerknemer = em.find(Werknemer.class, updatedWerknemer.getIdNummer());
+            if (existingWerknemer != null) {
+
+                existingWerknemer.setVoorNamen(updatedWerknemer.getVoorNamen());
+                existingWerknemer.setAchterNaam(updatedWerknemer.getAchterNaam());
+                existingWerknemer.setGeboorteDatum(updatedWerknemer.getGeboorteDatum());
+                existingWerknemer.setGeboortePlaats(updatedWerknemer.getGeboortePlaats());
+
+
+                em.merge(existingWerknemer);
+            }
+            em.getTransaction().commit();
+            existingWerknemer.updateWerknemer();
+            return existingWerknemer;
+        } catch (Exception e) {
+            e.printStackTrace();
+            em.getTransaction().rollback();
+            return null;
+        }
+    }
+
+    public long getTotalWerknemersCount() {
+        String query = "select count(w) from Werknemer w";
+        TypedQuery<Long> typedQuery = em.createQuery(query, Long.class);
+        return typedQuery.getSingleResult();
+    }
+
+    public long getWerknemersCountByFunctie(String functieNaam) {
+        String query = "select count(w) from Werknemer w join w.functies f where f.FunctieType = :functieName ";
+        Query typedQuery = em.createQuery(query);
+        typedQuery.setParameter("functieName", functieNaam);
+        return (long) typedQuery.getSingleResult();
+    }
+
+
+}
+ /*public Werknemer deleteWerknemer(String idNummer) {
         Werknemer werknemer = null;
         try {
             em.getTransaction().begin();
@@ -100,41 +143,3 @@ public class WerknemerRepo {
         }
         return werknemer;
     }*/
-    public Werknemer updateWerknemer(Werknemer updatedWerknemer) {
-        try {
-            em.getTransaction().begin();
-            Werknemer existingWerknemer = em.find(Werknemer.class, updatedWerknemer.getIdNummer());
-            if (existingWerknemer != null) {
-
-                existingWerknemer.setVoorNamen(updatedWerknemer.getVoorNamen());
-                existingWerknemer.setAchterNaam(updatedWerknemer.getAchterNaam());
-                existingWerknemer.setGeboorteDatum(updatedWerknemer.getGeboorteDatum());
-                existingWerknemer.setGeboortePlaats(updatedWerknemer.getGeboortePlaats());
-
-
-                em.merge(existingWerknemer);
-            }
-            em.getTransaction().commit();
-            return existingWerknemer;
-        } catch (Exception e) {
-            e.printStackTrace();
-            em.getTransaction().rollback();
-            return null;
-        }
-    }
-
-    public long getTotalWerknemersCount() {
-        String query = "select count(w) from Werknemer w";
-        TypedQuery<Long> typedQuery = em.createQuery(query, Long.class);
-        return typedQuery.getSingleResult();
-    }
-
-    public long getWerknemersCountByFunctie(String functieName) {
-        String query = "select count(w) from Werknemer w join w.WerknemerFunctie f where f.FunctieType = :functieName";
-        Query typedQuery = em.createQuery(query);
-        typedQuery.setParameter("functieName", functieName);
-        return (long) typedQuery.getSingleResult();
-    }
-
-
-}

@@ -8,12 +8,16 @@ public class WerknemerDetail {
 
     @Id
     @GeneratedValue
+    @Column
     private Long DetailId;
 
+    @Column
     private String Adres;
 
+    @Column
     private String TelefoonNummer;
 
+    @Column
     private String Email;
 
     @OneToOne
@@ -32,6 +36,9 @@ public class WerknemerDetail {
         TelefoonNummer = telefoonNummer;
         Email = email;
     }
+
+
+
 
     public Long getDetailId() {
         return DetailId;

@@ -10,8 +10,10 @@ public class Afdeling {
 
     @Id
     @GeneratedValue
+    @Column
     private int AfdelingId;
 
+    @Column
     private String AfdelingNaam;
 
 

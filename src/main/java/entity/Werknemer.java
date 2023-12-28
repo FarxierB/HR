@@ -1,31 +1,38 @@
 package entity;
 
+import Observer.WerknemerSubject;
+import Observer.WerknemerObserver;
 import jakarta.persistence.*;
 
 import java.time.LocalDate;
-import java.util.ArrayList;
-import java.util.List;
+import java.util.HashSet;
+import java.util.Set;
 
 @Entity
 @Table(name = "Werknemer")
 public class Werknemer {
 
     @Id
+    @Column
     private String IdNummer;
 
+    @Column
     private String VoorNamen;
 
+    @Column
     private String AchterNaam;
 
+    @Column
     private LocalDate GeboorteDatum;
 
+    @Column
     private String GeboortePlaats;
 
 
 
     @ManyToMany
-    @JoinTable(name = "Werknemer_Functie", joinColumns = {@JoinColumn(name = "Werknemer_ID")}, inverseJoinColumns = {@JoinColumn(name = "Functie_ID")})
-    private List<Functie> WerknemerFunctie = new ArrayList<>();
+    @JoinTable(name = "Werknemer_Functie", joinColumns = {@JoinColumn(name = "Werknemer_ID", referencedColumnName = "IdNummer")}, inverseJoinColumns = {@JoinColumn(name = "Functie_ID", referencedColumnName = "FunctieId")})
+    private Set<Functie> functies = new HashSet<>();
 
 
 
@@ -44,6 +51,23 @@ public class Werknemer {
     }
 
 
+    @Transient
+    private WerknemerSubject werknemerSubject = new WerknemerSubject();
+
+
+
+
+    public void updateWerknemer() {
+        werknemerSubject.notifyObservers(this);
+    }
+
+    public void addObserver(WerknemerObserver observer) {
+        werknemerSubject.addObserver(observer);
+    }
+
+    public void removeObserver(WerknemerObserver observer) {
+        werknemerSubject.removeObserver(observer);
+    }
 
     public String getIdNummer() {
         return IdNummer;
@@ -87,14 +111,10 @@ public class Werknemer {
 
 
 
-    public List<Functie> getWerknemerFunctie() {
-        return WerknemerFunctie;
+    public Set<Functie> getFuncties() {return functies;}
+
+
+    public void setFuncties(Functie functie) {this.functies.add(functie);
     }
-
-    public void setWerknemerFunctie(Functie werknemerFunctie) {
-        this.WerknemerFunctie.add(werknemerFunctie);
-    }
-
-
 }
 

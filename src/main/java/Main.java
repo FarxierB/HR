@@ -1,3 +1,4 @@
+import Observer.ObserverChange;
 import Service.CreateDateService;
 import configuration.JPAConfig;
 import entity.Functie;
@@ -12,11 +13,15 @@ import java.util.Scanner;
 public class Main {
     public static void main(String[] args) {
 
-        Scanner scanner = new Scanner(System.in);
+
+
+        /*Scanner scanner = new Scanner(System.in);
 
         EntityManager entityManager = JPAConfig.getEntityManager();
         WerknemerRepo werknemerRepo = new WerknemerRepo(entityManager);
         FunctieRepo functieRepo = new FunctieRepo(entityManager);
+
+
 
         try {
             int choice;
@@ -69,10 +74,11 @@ public class Main {
             // Close resources
             scanner.close();
             JPAConfig.shutdown();
-        }
+        }*/
+        CreateDateService.CreateData();
     }
 
-    private static void createWerknemer(Scanner scanner, WerknemerRepo werknemerRepo) {
+    /*private static void createWerknemer(Scanner scanner, WerknemerRepo werknemerRepo) {
         Werknemer newWerknemer = new Werknemer();
         System.out.print("Enter IdNummer: ");
         newWerknemer.setIdNummer(scanner.nextLine());
@@ -83,8 +89,8 @@ public class Main {
         System.out.print("Enter Achternaam: ");
         newWerknemer.setAchterNaam(scanner.nextLine());
 
-        /*System.out.print("Enter geboortedatum (YYYY-MM-DD): ");
-        newWerknemer.setGeboorteDatum(LocalDate.parse(scanner.nextLine()));*/
+        System.out.print("Enter geboortedatum (YYYY-MM-DD): ");
+        newWerknemer.setGeboorteDatum(LocalDate.parse(scanner.nextLine()));
 
         System.out.print("Enter Geboorteplaats: ");
         newWerknemer.setGeboortePlaats(scanner.nextLine());
@@ -162,9 +168,8 @@ public class Main {
             System.out.println("Functie ID: " + functie.getFunctieId() +
                     ", Functie: " + functie.getFunctieType());
         }
-    }
+    }*/
 
-         //CreateDateService.CreateData();
         // CreateDataService.getInfo();
-    }
+}
 
