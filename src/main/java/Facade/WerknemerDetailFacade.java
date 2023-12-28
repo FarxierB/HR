@@ -1,21 +1,19 @@
-package Service;
+package Facade;
 
 import configuration.JPAConfig;
 import entity.WerknemerDetail;
 import repository.DetailRepo;
 
-public class DetailService {
+public class WerknemerDetailFacade {
     private final DetailRepo werknemerDetailRepository;
 
-    public DetailService() {
+    public WerknemerDetailFacade() {
         this.werknemerDetailRepository = new DetailRepo(JPAConfig.getEntityManager());
     }
 
-    public WerknemerDetail createWerknemerDetail(WerknemerDetail werknemerDetail){
+    public WerknemerDetail createWerknemerDetail(WerknemerDetail werknemerDetail) {
         return werknemerDetailRepository.createWerknemerDetail(werknemerDetail);
     }
-
-
 
     public WerknemerDetail updateWerknemerDetail(WerknemerDetail werknemerDetail) {
         return werknemerDetailRepository.updateWerknemerDetail(werknemerDetail);
@@ -24,4 +22,6 @@ public class DetailService {
     public WerknemerDetail deleteWerknemerDetail(WerknemerDetail werknemerDetail) {
         return werknemerDetailRepository.deleteWerknemerDetail(werknemerDetail);
     }
+
+
 }

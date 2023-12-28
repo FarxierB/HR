@@ -1,8 +1,11 @@
+import Facade.WerknemerDetailFacade;
 import Observer.ObserverChange;
 import Service.CreateDateService;
+import Service.DetailService;
 import configuration.JPAConfig;
 import entity.Functie;
 import entity.Werknemer;
+import entity.WerknemerDetail;
 import jakarta.persistence.EntityManager;
 import repository.FunctieRepo;
 import repository.WerknemerRepo;
@@ -15,11 +18,12 @@ public class Main {
 
 
 
-        /*Scanner scanner = new Scanner(System.in);
+        Scanner scanner = new Scanner(System.in);
 
         EntityManager entityManager = JPAConfig.getEntityManager();
         WerknemerRepo werknemerRepo = new WerknemerRepo(entityManager);
         FunctieRepo functieRepo = new FunctieRepo(entityManager);
+        DetailService werknemerDetail = new DetailService();
 
 
 
@@ -33,7 +37,8 @@ public class Main {
                 System.out.println("5. View aantal werknemers in dienst");
                 System.out.println("6. View lijst van functies");
                 System.out.println("7. View aantal werknemers in dienst per functies");
-                System.out.println("8. Exit");
+                System.out.println("8. Create WerknemerDetail");
+                System.out.println("9. Exit");
                 System.out.print("Enter your choice: ");
 
                 choice = scanner.nextInt();
@@ -62,6 +67,9 @@ public class Main {
                         getWerknemersCountByFunctie(scanner, werknemerRepo);
                         break;
                     case 8:
+                        createWerknemerDetail(scanner, werknemerDetail);
+                        break;
+                    case 9:
                         System.out.println("Exiting...");
                         break;
 
@@ -69,16 +77,16 @@ public class Main {
                         System.out.println("Invalid choice. Please enter a valid option.");
                 }
 
-            } while (choice != 8);
+            } while (choice != 9);
         } finally {
             // Close resources
             scanner.close();
             JPAConfig.shutdown();
-        }*/
-        CreateDateService.CreateData();
+        }
+        //CreateDateService.CreateData();
     }
 
-    /*private static void createWerknemer(Scanner scanner, WerknemerRepo werknemerRepo) {
+    private static void createWerknemer(Scanner scanner, WerknemerRepo werknemerRepo) {
         Werknemer newWerknemer = new Werknemer();
         System.out.print("Enter IdNummer: ");
         newWerknemer.setIdNummer(scanner.nextLine());
@@ -112,7 +120,7 @@ public class Main {
 
 //            System.out.print("Enter new geboortedatum: ");
 //            updatedWerknemer.setGeboorteDatum(LocalDate.parse(scanner.nextLine()));
-//
+
             System.out.print("Enter new Geboorteplaats: ");
             updatedWerknemer.setGeboortePlaats(scanner.nextLine());
 
@@ -168,7 +176,24 @@ public class Main {
             System.out.println("Functie ID: " + functie.getFunctieId() +
                     ", Functie: " + functie.getFunctieType());
         }
-    }*/
+    }
+
+    private static void createWerknemerDetail(Scanner scanner, DetailService detailService) {
+        WerknemerDetail newWerknemerDetail = new WerknemerDetail();
+        System.out.print("Enter Adres: ");
+        newWerknemerDetail.setAdres(scanner.nextLine());
+
+        System.out.print("Enter TelefoonNummer: ");
+        newWerknemerDetail.setTelefoonNummer(scanner.nextLine());
+
+        System.out.print("Enter Email: ");
+        newWerknemerDetail.setEmail(scanner.nextLine());
+
+
+        detailService.createWerknemerDetail(newWerknemerDetail);
+        System.out.println("WerknemerDetail created successfully!");
+    }
+
 
         // CreateDataService.getInfo();
 }
